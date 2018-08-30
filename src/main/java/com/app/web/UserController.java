@@ -1,6 +1,8 @@
 package com.app.web;
 
+import com.app.dao.AddressDao;
 import com.app.dao.UserDao;
+import com.app.model.Address;
 import com.app.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -18,16 +20,21 @@ public class UserController {
 
     @Autowired
     UserDao userDao;
+    @Autowired
+    AddressDao addressDao;
 
     @RequestMapping("getUser")
-    public Optional<User> selectUserById(@RequestParam Integer id, HttpServletRequest request) {
-        Optional<User> byId = userDao.findById(id);
-        return byId;
+    public User selectUserById(@RequestParam Integer id, HttpServletRequest request) {
+        User user = userDao.selectUserById(id);
+
+
+        return user;
     }
 
     @RequestMapping("listUser")
     public List<User> list() {
-        return userDao.findAll();
+        List<User> users = userDao.selectUsers();
+        return users;
     }
 
     @RequestMapping("add")
